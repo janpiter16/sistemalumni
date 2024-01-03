@@ -21,8 +21,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check the user's role and redirect accordingly
         if ($row['role'] == 'Admin') {
             header("Location: admin/home.php");
-        } else {
-            header("Location: admin/fasilitas_kamar.php");
+        
+        }
+        if ($row['role'] == 'User') {
+            header('Location: index.php');
         }
     } else {
         echo "<center><h1>Email atau Password Anda Salah. Silahkan Coba Login Kembali.</h1>

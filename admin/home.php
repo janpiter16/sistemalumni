@@ -3,20 +3,25 @@
 include'koneksi.php';
 
 if(isset($_POST['Simpan'])) {
-    $nisn = $_POST['nisn'];
-    $nama = $_POST['nama'];
+    $nama_lengkap = $_POST['nama_lengkap'];
     $jurusan = $_POST['jurusan'];
-    $karir = $_POST['karir'];
+    $email = $_POST['email'];
+    $jenjang_karir = $_POST['jenjang_karir'];
+    $info_penting = $_POST['info_penting'];
     $tahun_lulus = $_POST['tahun_lulus'];
-    $no_telepon = $_POST['no_telepon'];
+    $foto = $_POST['foto'];
 
-    $sql = "INSERT INTO data_user VALUES ('', '$nisn', '$nama', '$jurusan', '$karir', '$tahun_lulus', '$no_telepon')";
+    $foto = (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) ? "uploads/" . $_FILES["foto"]["name"] : '';
+    // var_dump($foto);
+
+    $sql = "INSERT INTO alumni(nama_lengkap, jurusan, email, jenjang_karir, tahun_lulus, info_penting, foto)
+    VALUES ('$nama_lengkap', '$jurusan', '$email', '$jenjang_karir', '$tahun_lulus', '$info_penting', '$foto')";
     $query = mysqli_query($koneksi,$sql);
 
     if($query) {
         header('location PHP_SELF');
     } else {
-        echo "<script>aler('Data gagal disimpan');</script>";
+        echo "<script>alert('Data gagal disimpan');</script>";
     }
 }
 ?>
@@ -59,9 +64,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <a href="home.php" class="nav-link">Data Alumni</a>
           </li>
           <li class="nav-item">
-            <a href="fasilitas_kamar.php" class="nav-link">Data User</a>
-          </li>
-          <li class="nav-item">
             <a href="../logout.php" class="nav-link">Logout</a>
           </li>
       </div>
@@ -97,40 +99,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <button type="button" classs="btn-close" data-dismiss="modal" aria-label="close"></button>
                                 </div>
 
-                                <!--form tambah kamar-->
+                                <!--form tambah data-->
                                 <form action="" method="POST">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="">NISN: </label>
-                                            <input type="text" name="nisn" min="0" class="form-control" placeholder="Masukkan Tipe Kamar" required>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Nama: </label>
-                                            <input type="text" name="nama" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required>
+                                            <label for="">Nama lengkap: </label>
+                                            <input type="text" name="nama_lengkap" min="0" class="form-control" placeholder="Masukkan Nama Lengkap" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="">Jurusan: </label>
-                                            <input type="text" name="jurusan" min="0" class="form-control" placeholder="Masukkan Tipe Kamar" required>
+                                            <input type="text" name="jurusan" min="0" class="form-control" placeholder="Masukkan Jurusan" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Karir: </label>
-                                            <input type="text" name="karir" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required>
+                                            <label for="">Email: </label>
+                                            <input type="text" name="email" min="0" class="form-control" placeholder="Masukkan Email" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Jenjang Karir: </label>
+                                            <input type="text" name="jenjang_karir" min="0" class="form-control" placeholder="Masukkan Jenjang Karir" required>
                                         </div>
                                         <div class="form-group">
                                             <label for="">Tahun Lulus: </label>
-                                            <input type="text" name="tahun_lulus" min="0" class="form-control" placeholder="Masukkan Tipe Kamar" required>
+                                            <input type="text" name="tahun_lulus" min="0" class="form-control" placeholder="Masukkan Jenjang Karir" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">No Telepon: </label>
-                                            <input type="text" name="no_telepon" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required>
+                                            <label for="">Info Penting: </label>
+                                            <input type="text" name="info_penting" min="0" class="form-control" placeholder="Link lowongan *jika ada" required>
                                         </div>
                                         </div>
+                                        <!-- </div>
+                                        </div> -->
+                                        <div class="form-group">
+                                            <br>
+                                            <label>Upload Foto</label>
+                                            <br>
+                                            <input type="file" class="form-control-file" name="foto" required>
+                                            <small>Maksimal 10 Mb </small>
+                                      </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                         <button type="submit" name="Simpan" class="btn btn-primary">Simpan</button>
                                         </div>
                                     </form>
-
                                     </div>
                                 </div>
                             </div>
@@ -139,12 +149,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
                                     <thead>
                                         <tr>
                                         <th scope="col">ID</th>
-                                        <th scope="col">NISN</th>
-                                        <th scope="col">Nama </th>
+                                        <th scope="col">Nama Lengkap </th>
                                         <th scope="col">Jurusan</th>
-                                        <th scope="col">Karir</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Jenjang Karir</th>
+                                        <th scope="col">Info Penting</th>
                                         <th scope="col">Tahun Lulus</th>
-                                        <th scope="col">No Telepon</th>
+                                        <th scope="col">Foto</th>
                                         <th scope="col">Aksi</th>
                                     </tr>
                                 </thead>
@@ -153,28 +164,38 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <?php
 //tampil from tabel_kamar
 $no = 1;
-$sql = "SELECT * FROM data_user";
+$sql = "SELECT * FROM alumni";
 $query = mysqli_query($koneksi,$sql);
 
-if($query) {
+function query($data){
+  global $koneksi;
+  $result = mysqli_query($koneksi, $data);
+  $rows = [];
+  while ($row = mysqli_fetch_assoc($result)) {
+    $rows[] = $row;
+  }
+  return $rows;
+}
+$data = query("SELECT * FROM alumni");
+if($data) {
     while($row = mysqli_fetch_assoc($query)) {
         ?>
-
         <tr>
             <td><?= $no++ ?></td>
-            <td><?= $row['nisn'] ?></td>
-            <td><?= $row['nama'] ?></td>
+            <td><?= $row['nama_lengkap'] ?></td>
             <td><?= $row['jurusan'] ?></td>
-            <td><?= $row['karir'] ?></td>
+            <td><?= $row['email'] ?></td>
+            <td><?= $row['jenjang_karir'] ?></td> 
+            <td><?= $row['info_penting'] ?></td>           
             <td><?= $row['tahun_lulus'] ?></td>
-            <td><?= $row['no_telepon'] ?></td>
+            <td> <img src="imgalumni/<?=$row["foto"];?>" alt="gambar alumni" width="50"></td>
             <td> 
               
             <a class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ubahData<?= $row['id'] ?>" href="#">
                 Ubah</a>
                 <a class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#viewData<?= $row['id'] ?>" href="#">
                 Lihat</a>
-                <a href="hapus_data_kamar.php?id=<?= $row['id'] ?>">
+                <a href="hapusalumni.php?id=<?= $row['id'] ?>">
                         <button class="btn btn-danger btn-sm" onclick="return confirm('Anda yakin akan menghapus data ini?')">Hapus
                       </button>
                   </a>
@@ -192,45 +213,51 @@ if($query) {
                                 </div>
 
                                 <!--form ubah kamar-->
-                                <form action="update_kamar.php" method="POST">
+                                <form action="updatealumni.php" method="POST">
                                   <input type ="hidden" name="id" value="<?= $row['id'] ?>">
                                     <div class="modal-body">
                                         <div class="form-group">
-                                            <label for="">NISN: </label>
-                                            <input type="text" name="nisn" class="form-control" placeholder="Masukkan Tipe Kamar" required value="<?= $row['nisn'] ?>">
-                                        </div>
-                                        <div class="form-group">
                                             <label for="">Nama: </label>
-                                            <input type="text" name="nama" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required value="<?= $row['nama'] ?>">
+                                            <input type="text" name="nama_lengkap" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required value="<?= $row['nama_lengkap'] ?>">
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Jurusan</label>
+                                            <label for="">Jurusan: </label>
                                             <input type="text" name="jurusan" class="form-control" placeholder="Masukkan Tipe Kamar" required value="<?= $row['jurusan'] ?>">
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Karir: </label>
-                                            <input type="text" name="karir" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required value="<?= $row['karir'] ?>">
+                                            <label for="">Email: </label>
+                                            <input type="text" name="email" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required value="<?= $row['email'] ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Jenjang karir: </label>
+                                            <input type="text" name="jenjang_karir" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required value="<?= $row['jenjang_karir'] ?>">
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="">Info penting:</label>
+                                            <input type="text" name="info_penting" class="form-control" placeholder="Masukkan Tipe Kamar" required value="<?= $row['info_penting'] ?>">
                                         </div>
                                         <div class="form-group">
                                             <label for="">Tahun Lulus:</label>
                                             <input type="text" name="tahun_lulus" class="form-control" placeholder="Masukkan Tipe Kamar" required value="<?= $row['tahun_lulus'] ?>">
                                         </div>
                                         <div class="form-group">
-                                            <label for="">No Telepon</label>
-                                            <input type="text" name="no_telepon" min="0" class="form-control" placeholder="Masukkan Jumlah Kamar" required value="<?= $row['no_telepon'] ?>">
-                                        </div>
+                                            <br>
+                                            <label>Upload Foto</label>
+                                            <br>
+                                            <input type="file" class="form-control-file" name="foto" required>
+                                            <small>Maksimal 10 Mb </small>
+                                      </div>
                                         </div>
                                         <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                         <button type="ubah" name="ubah" class="btn btn-primary">Ubah</button>
                                         </div>
                                     </form>
-
                                     </div>
                                 </div>
                             </div>
                             <div class="modal fade" id="viewData<?= $row['id'] ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
+                            <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Lihat Data Alumni</h1>
@@ -238,12 +265,13 @@ if($query) {
                                 </div>
 
                                 <div class="modal-body">
-                                  <p>NISN : <?= $row['nisn'] ?></p>
-                                  <p>Nama : <?= $row['nama'] ?></p>
+                                  <p>Nama : <?= $row['nama_lengkap'] ?></p>
                                   <p>Jurusan : <?= $row['jurusan'] ?></p>
-                                  <p>Karir : <?= $row['karir'] ?></p>
+                                  <p>Email : <?= $row['email'] ?></p>
+                                  <p>Jenjang Karir : <?= $row['jenjang_karir'] ?></p>
+                                  <p>info penting : <?= $row['info_penting'] ?></p>
                                   <p>Tahun Lulus : <?= $row['tahun_lulus'] ?></p>
-                                  <p>No Telepon : <?= $row['no_telepon'] ?></p>
+                                  <p>foto : <?= $row['foto'] ?></p>
                                 </div>
     
                               </div>

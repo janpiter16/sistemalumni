@@ -15,25 +15,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Mengambil data dari formulir
-    $nisn = $_POST['nis'];
     $nama_lengkap = $_POST['nama_lengkap'];
     $jurusan = $_POST['jurusan'];
     $email = $_POST['email'];
     $jenjang_karir = $_POST['jenjang_karir'];
-    $lainnya = $_POST['lebih_lanjut'];
-    $thn_lulus = $_POST['thn_lulus'];
-    $alamat = $_POST['alamat'];
-    $jenis_kelamin = $_POST['jenis_kelamin'];
+    $lainnya = $_POST['lainnya'];
+    $info_penting = $_POST['info_penting'];
+    $tahun_lulus = $_POST['tahun_lulus'];
 
     // Mengatur lokasi penyimpanan file foto
-    $foto_path = "C:/Users/ASUS/Desktop/uploads/" . basename($_FILES["foto"]["tmp_name"]);
+    $foto = "C:/Users/ASUS/Desktop/uploads/" . basename($_FILES["foto"]["name"]);
 
     // Upload foto ke folder "uploads"
-    move_uploaded_file($_FILES["foto"]["tmp_name"], $foto_path);
+    move_uploaded_file($_FILES["foto"]["name"], $foto);
 
     // Menyimpan data ke dalam tabel alumni
-    $sql = "INSERT INTO data_alumni (nisn, nama_lengkap, jurusan, email, jenjang_karir, lainnya, tahun_lulus, alamat, jenis_kelamin, foto_path)
-            VALUES ('$nisn', '$nama_lengkap', '$jurusan', '$email', '$jenjang_karir', '$lainnya', '$thn_lulus', '$alamat', '$jenis_kelamin', '$foto_path')";
+    $sql = "INSERT INTO alumni (nama_lengkap, jurusan, email, jenjang_karir, lainnya, info_penting tahun_lulus, foto)
+            VALUES ('$nama_lengkap', '$jurusan', '$email', '$jenjang_karir', '$lainnya', '$info_penting' '$tahun_lulus', '$foto')";
 
     if ($conn->query($sql) === TRUE) {
         echo "<script>

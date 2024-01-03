@@ -19,9 +19,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="navbar-nav ms-auto py-2">
-                    <a class="nav-link active px-3" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active px-3" aria-current="page" href="index.php">Home</a>
                     <a class="nav-link active px-3" href="tampilan.php">Tentang Alumni</a>
                     <a class="nav-link active px-3" href="formdata.php">Form Pengisian</a>
+                    <a class="nav-link active px-3" href="dataalumni.php">Data Alumni</a>
                 </div>
             </div>
         </div>
